@@ -1,0 +1,98 @@
+﻿@model RealEstateWebsite.Models.RealEstate
+
+@{
+    // Lấy tiêu đề và màu sắc động từ Controller truyền qua
+    var formTitle = ViewData["FormTitle"] ?? "ĐĂNG TIN RAO BÁN NHÀ ĐẤT";
+    var cardColor = ViewData["FormColor"] ?? "bg-primary text-white";
+    ViewData["Title"] = formTitle;
+}
+
+<div class="container mt-4 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow border-0" style="border-radius: 12px; overflow: hidden;">
+                <div class="card-header @cardColor py-3 text-center">
+                    <h4 class="mb-0 fw-bold text-uppercase">📝 @formTitle</h4>
+                </div>
+                <div class="card-body p-4 bg-light">
+
+                    <div asp-validation-summary="All" class="text-danger fw-bold mb-3"></div>
+
+                    <form asp-action="Create" method="post" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">📍 Tiêu đề tin đăng</label>
+                            <input asp-for="Title" class="form-control form-control-lg" placeholder="Ví dụ: Cho thuê căn hộ chung cư mini 2PN giá rẻ tại Đà Lạt..." required />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">📂 Thuộc danh mục</label>
+                                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.CategoryId" required>
+                                    <option value="">-- Chọn danh mục phù hợp --</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">🧭 Hướng</label>
+                                <select asp-for="Direction" class="form-select">
+                                    <option value="">-- Chọn hướng (Không bắt buộc) --</option>
+                                    <option value="Đông">Đông</option>
+                                    <option value="Tây">Tây</option>
+                                    <option value="Nam">Nam</option>
+                                    <option value="Bắc">Bắc</option>
+                                    <option value="Đông Nam">Đông Nam</option>
+                                    <option value="Tây Nam">Tây Nam</option>
+                                    <option value="Đông Bắc">Đông Bắc</option>
+                                    <option value="Tây Bắc">Tây Bắc</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">💰 Giá tiền (VNĐ)</label>
+                                <input asp-for="Price" type="number" class="form-control" placeholder="Nhập số liền nhau, ví dụ: 5000000" required />
+                                <span class="text-muted small">Đối với tin thuê, đây là giá thuê/tháng. Đăng tin cần mua là khoảng giá mong muốn.</span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">📐 Diện tích ($m^2$)</label>
+                                <input asp-for="Area" type="number" step="0.1" class="form-control" placeholder="Ví dụ: 75" required />
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">🏠 Địa chỉ cụ thể (Số nhà, tên đường)</label>
+                            <input asp-for="AddressNumber" class="form-control" placeholder="Ví dụ: 12 Bùi Thị Xuân" />
+                        </div>
+
+                        <div class="mb-3 bg-white p-3 border rounded">
+                            <label class="form-label fw-bold text-primary">📸 Hình ảnh đính kèm bài đăng</label>
+                            <input type="file" name="ImageFile" class="form-control" accept="image/*" />
+                            <span class="text-muted small d-block mt-1">Nếu là tin "Cần Mua" không có ảnh, hệ thống sẽ tự động gán ảnh phối cảnh mẫu tìm kiếm.</span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">📝 Nội dung mô tả chi tiết</label>
+                            <textarea asp-for="Description" class="form-control" rows="5" placeholder="Mô tả kỹ thông tin vị trí, tiện ích xung quanh, liên hệ..." required></textarea>
+                        </div>
+
+                        <div class="mb-4 form-check form-switch p-3 bg-warning bg-opacity-10 border border-warning border-opacity-20 rounded">
+                            <input class="form-check-input ms-0 me-2" type="checkbox" asp-for="IsVIP">
+                            <label class="form-check-label fw-bold text-warning-emphasis" for="IsVIP">⭐ Cấu hình tin này làm Tin VIP nổi bật (Hiện đầu trang)</label>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary px-4 fw-bold">⬅️ Quay lại</a>
+                            <button type="submit" class="btn btn-dark px-5 fw-bold btn-lg shadow-sm">🚀 ĐĂNG TIN NGAY</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

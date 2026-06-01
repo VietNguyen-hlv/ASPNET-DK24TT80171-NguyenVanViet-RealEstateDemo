@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Đăng Ký Tài Khoản Mới";
+}
+if (string.IsNullOrEmpty(FullName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
+{
+    ModelState.AddModelError("", "Vui lòng nhập đầy đủ thông tin bắt buộc!");
+    return View();
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow border-0" style="border-radius: 15px;">
+                <div class="card-body p-5">
+                    <h3 class="fw-bold text-center text-success mb-4">📝 ĐĂNG KÝ TÀI KHOẢN</h3>
+
+                    @if (ViewBag.ErrorMessage != null)
+                    {
+                        <div class="alert alert-danger text-center small py-2">@ViewBag.ErrorMessage</div>
+                    }
+                    @if (ViewBag.SuccessMessage != null)
+                    {
+                        <div class="alert alert-success text-center small py-2">@ViewBag.SuccessMessage</div>
+                    }
+
+                    <form asp-action="Register" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Họ và Tên</label>
+                            <input type="text" name="fullName" class="form-control" placeholder="Nguyễn Văn A" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Địa chỉ Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="name@example.com" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Tên đăng nhập</label>
+                            <input type="text" name="Username" class="form-control" placeholder="Nhập tên đăng nhập" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Mật khẩu</label>
+                            <input type="password" name="password" class="form-control" placeholder="Tối thiểu 6 ký tự" required />
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Xác nhận mật khẩu</label>
+                            <input type="password" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu giống phía trên" required />
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 fw-bold py-2 mb-3" style="border-radius: 8px;">ĐĂNG KÝ NGAY</button>
+
+                        <div class="text-center">
+                            <span class="text-muted small">Đã có tài khoản? </span>
+                            <a asp-action="Login" class="text-decoration-none fw-bold small text-primary">Đăng nhập</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

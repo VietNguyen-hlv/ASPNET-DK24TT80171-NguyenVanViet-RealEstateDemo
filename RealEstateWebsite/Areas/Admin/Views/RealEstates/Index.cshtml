@@ -1,0 +1,101 @@
+﻿@model IEnumerable<RealEstateWebsite.Models.RealEstate>
+
+@{
+    ViewData["Title"] = "Quản lý bài đăng Bất động sản";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="d-flex align-items-center gap-3">
+        <a href="/admin" class="btn btn-outline-secondary btn-sm fw-bold shadow-sm">
+            <i class="fa-solid fa-arrow-left me-1"></i> Quay lại
+        </a>
+        <h3 class="fw-bold text-dark mb-0">📋 QUẢN LÝ TIN ĐĂNG BẤT ĐỘNG SẢN</h3>
+    </div>
+    <div class="text-muted small">Tổng số tin: <span class="badge bg-primary">@Model?.Count()</span></div>
+</div>
+
+<div class="card shadow-sm border-0 bg-white p-4" style="border-radius: 12px;">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 10%;">Hình ảnh</th>
+                    <th style="width: 35%;">Thông tin bài đăng</th>
+                    <th>Danh mục</th>
+                    <th>Giá tiền</th>
+                    <th>Diện tích</th>
+                    <th>Ngày đăng</th>
+                    <th>Loại tin</th>
+                    <th class="text-center" style="width: 15%;">Hành động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@item.ImageUrl" class="rounded border shadow-sm"
+                                     style="width: 70px; height: 55px; object-fit: cover;"
+                                     onerror="this.src='https://placehold.co/70x55?text=No+Image'" />
+                            </td>
+                           '' <td>
+                                <div class="fw-bold text-dark text-truncate" style="max-width: 350px;">@item.Title</div>
+                                <small class="text-muted d-block mt-1">
+                                <i class="fa-solid fa-location-dot me-1 text-secondary"></i> @item.AddressNumber
+                                </small>
+                           '' </td>
+                            <td>
+                                <span class="badge bg-light text-dark border">@item.Category?.Name</span>
+                            </td>
+                            <td class="text-danger fw-bold">@item.Price</td>
+                            <td class="fw-semibold">@item.Area m²</td>
+                            <td class="small text-muted">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td>
+                                @if (item.IsVIP)
+                                {
+                                    <span class="badge bg-warning text-dark fw-bold shadow-sm"><i class="fa-solid fa-star me-1"></i> VIP</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-outline-secondary text-muted border">Thường</span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <div class="d-flex justify-content-center gap-2">
+
+                                    <form action="/Admin/RealEstates/ToggleVip/@item.Id" method="post" style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm @(item.IsVIP ? "btn-warning" : "btn-outline-warning") fw-bold py-1 px-2">
+                                            @(item.IsVIP ? "Hạ VIP" : "Lên VIP")
+                                        </button>
+                                    </form>
+
+                                    <form action="/Admin/RealEstates/Delete/@item.Id" method="post"
+                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa vĩnh viễn bài đăng này khỏi hệ thống?');"
+                                          style="display:inline;">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="btn btn-sm btn-danger fw-bold py-1 px-2">
+                                            Xóa tin
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="8" class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-folder-open d-block fs-2 mb-2 text-secondary"></i>
+                            Hiện tại hệ thống chưa có bài đăng bất động sản nào.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
