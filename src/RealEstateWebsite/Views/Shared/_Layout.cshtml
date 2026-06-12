@@ -1,0 +1,87 @@
+﻿HTML
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BĐS Lâm Đồng</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/RealEstateWebsite.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm py-3">
+            <div class="container">
+                <div class="d-flex flex-wrap gap-2 justify-content-center w-100 align-items-center">
+
+                    <a class="navbar-brand fw-bold text-uppercase text-warning me-3" asp-area="" asp-controller="batdongsan" asp-action="Index">
+                        🏠 BĐS LÂM ĐỒNG
+                    </a>
+
+                    <a class="btn btn-outline-warning fw-bold px-3 text-uppercase" style="border-radius: 20px;" asp-controller="batdongsan" asp-action="Index">
+                        Trang chủ
+                    </a>
+
+                    <a class="btn btn-outline-light fw-bold px-3 text-uppercase" style="border-radius: 20px;" asp-controller="batdongsan" asp-action="Index" asp-route-type="ban">
+                        BĐS Cần Bán
+                    </a>
+
+                    <a class="btn btn-outline-light fw-bold px-3 text-uppercase" style="border-radius: 20px;" asp-controller="batdongsan" asp-action="Index" asp-route-type="thue">
+                        BĐS Cho Thuê
+                    </a>
+
+                    <a class="btn btn-outline-light fw-bold px-3 text-uppercase" style="border-radius: 20px;" asp-controller="batdongsan" asp-action="Index" asp-route-type="canmua">
+                        BĐS Cần Mua
+                    </a>
+
+                    @if (Context.User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="batdongsan" asp-action="Create" asp-route-formType="ban" class="btn btn-primary fw-bold px-3 shadow-sm">
+                            ➕ Đăng Tin Bán Đất
+                        </a>
+                        <a asp-controller="batdongsan" asp-action="Create" asp-route-formType="thue" class="btn btn-info text-white fw-bold px-3 shadow-sm">
+                            ➕ Đăng Tin Cho Thuê
+                        </a>
+                        <a asp-controller="batdongsan" asp-action="Create" asp-route-formType="canmua" class="btn btn-success fw-bold px-3 shadow-sm">
+                            ➕ Đăng Tin Cần Mua
+                        </a>
+
+                        <span class="nav-link text-warning fw-bold ms-2">
+                            👤 Xin chào, @Context.User.Identity.Name!
+                        </span>
+
+                        <a class="btn btn-sm btn-outline-danger fw-bold ms-2" asp-controller="Account" asp-action="Logout">
+                            Đăng xuất
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning fw-bold px-4 text-uppercase" style="border-radius: 20px;" asp-controller="Account" asp-action="Login">
+                            👤 Đăng nhập
+                        </a>
+                    }
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted mt-5 py-3 bg-light text-center">
+        <div class="container">
+            &copy; 2026 - RealEstateWebsite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
