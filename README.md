@@ -3,7 +3,6 @@
 2. Công nghệ
 
   - ASP.NET Core MVC
-  - Entity Framework Core
   - SQL Server 2022
 3. Cài đặt
 
